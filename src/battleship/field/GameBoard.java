@@ -102,9 +102,66 @@ public class GameBoard {
     }
 
     public void setMISSAroundDestroyed(int lastX, int lastY) {
-        int shipSize = 1;
-        while ((cells[lastX - shipSize + 1][lastY].state != CellState.MISS && cells[lastX - shipSize + 1][lastY].state != CellState.UNDEFINED) && lastX >= shipSize) {
-            shipSize++;
+
+        while (true) {
+            if (lastX + 1 != size) {
+                while (lastX + 1 < size && cells[lastX + 1][lastY].state == CellState.HITDECK) {
+                    lastX++;
+
+                }
+            }
+            if (lastY + 1 != size) {
+                while (lastY + 1 < size && cells[lastX][lastY + 1].state == CellState.HITDECK) {
+                    lastY++;
+                }
+            }
+            break;
+        }
+
+        boolean horizontal;
+        if (lastY != 0 && cells[lastX][lastY - 1].state == CellState.HITDECK) {
+            horizontal = true;
+        } else if (lastY != size && cells[lastX][lastY + 1].state == CellState.HITDECK) {
+            horizontal = true;
+        } else horizontal = false;
+
+
+//        if (!horizontal) {
+//            while (lastX >=0 && cells[lastX][lastY].state == CellState.HITDECK) {
+//                if (lastY + 1 != size) {
+//                    cells[lastX][lastY + 1].setState(CellState.MISS);
+//                }
+//                if (lastY - 1 != -1) {
+//                    cells[lastX][lastY - 1].setState(CellState.MISS);
+//                }
+//                lastX--;
+//            }
+//        } else {
+//            while (lastY >= 0 && cells[lastX][lastY].state == CellState.HITDECK ) {
+//                if (lastX + 1 != size) {
+//                    cells[lastX + 1][lastY].setState(CellState.MISS);
+//                }
+//                if (lastX - 1 != -1) {
+//                    cells[lastX - 1][lastY].setState(CellState.MISS);
+//                }
+//                lastY--;
+//            }
+//        }
+//
+//        if (lastX == 0 || lastX==9) {
+//            if (lastY != size)
+//                cells[lastX][lastY + 1].setState(CellState.MISS);
+//            if (lastY != 0)
+//                cells[lastX][lastY - 1].setState(CellState.MISS);
+//
+//        }
+
+
+        int shipSize = 0;
+        if (lastX - 1 != -1) {
+            while (!horizontal && lastX >= shipSize && (cells[lastX - shipSize][lastY].state != CellState.MISS && cells[lastX - shipSize][lastY].state != CellState.UNDEFINED)) {
+                shipSize++;
+            }
         }
         if (shipSize != 0) {
             if (lastX + 1 != size) {
@@ -134,7 +191,7 @@ public class GameBoard {
                     cells[lastX - i][lastY - 1].setState(CellState.MISS);
             }
         } else {
-            while ((cells[lastX][lastY - shipSize + 1].state != CellState.MISS && cells[lastX][lastY - shipSize + 1].state != CellState.UNDEFINED) && lastY > shipSize) {
+            while (lastY >= shipSize && (cells[lastX][lastY - shipSize].state != CellState.MISS && cells[lastX][lastY - shipSize].state != CellState.UNDEFINED) && lastY > shipSize) {
                 shipSize++;
             }
             if (lastY + 1 != size) {
@@ -156,10 +213,10 @@ public class GameBoard {
                 }
             }
             for (int i = 0; i < shipSize; i++) {
-                if (lastX + 1 != size)
+                if (lastX + 1 != size && lastY - i < 0)
                     cells[lastX + 1][lastY - i].setState(CellState.MISS);
-                if (lastX - 1 != -1)
-                    cells[lastX - 1][lastY + i].setState(CellState.MISS);
+                if (lastX - 1 != -1 && lastY - i < size)
+                    cells[lastX - 1][lastY - i].setState(CellState.MISS);
             }
         }
 
