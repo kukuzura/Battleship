@@ -4,5 +4,6 @@ public enum CellState {
     EMPTY,
     UNDEFINED,
     HITDECK,
-    DECK
+    DECK,
+    MISS
 }

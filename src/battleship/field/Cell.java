@@ -33,6 +33,9 @@ public class Cell {
     void print() {
         switch (state) {
             case EMPTY:
+                System.out.print("[ ]");
+                break;
+            case MISS:
                 System.out.print("[.]");
                 break;
             case HITDECK:

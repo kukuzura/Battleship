@@ -1,6 +1,10 @@
 package battleship.interfaces;
 
-    public interface Player {
-        boolean turn();
+import battleship.states.TurnState;
+
+public interface Player {
+        boolean turn(Player player);
+        TurnState checkDamage(int x,int y);
+
     }
 
