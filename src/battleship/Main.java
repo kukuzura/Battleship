@@ -17,19 +17,23 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ((HumanPlayer) player).generateBoards();
+        ((HumanPlayer) player).randomGenerate();
         ((HumanPlayer) player).printBoards();
-        ((ComputerPlayer) computer).generateBoards();
+        ((ComputerPlayer) computer).randomGenerate();
         ((ComputerPlayer) computer).printBoards();
-        while(true){
-            if(player.turn(computer)) {
-                System.out.println("computer");
-                ((ComputerPlayer) computer).printBoards();
-                System.out.println("me");
-                ((HumanPlayer) player).printBoards();
+        while(((HumanPlayer) player).isAlive()&&((ComputerPlayer) computer).isAlive()){
+            while(player.turn(computer)&&((ComputerPlayer) computer).isAlive()&&((HumanPlayer) player).isAlive()) {
+             //   System.out.println("computer");
+              //  ((ComputerPlayer) computer).printBoards();
+               // System.out.println("me");
+               // ((HumanPlayer) player).printBoards();
             }
-            else break;
-
+            while (computer.turn(player)&&((HumanPlayer) player).isAlive()&&((ComputerPlayer) computer).isAlive()) {
+               // System.out.println("computer");
+               // ((ComputerPlayer) computer).printBoards();
+               // System.out.println("me");
+               // ((HumanPlayer) player).printBoards();
+            }
         }
     }
 }

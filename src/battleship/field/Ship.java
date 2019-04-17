@@ -57,6 +57,9 @@ public class Ship {
             }
         }
         if (hintsAmount == size) {
+//            for (int i = 0; i < size; i++) {
+//                cells[i].state=CellState.HITDECK;
+//            }
             state = ShipState.DESTROYED;
         } else if (hintsAmount != 0) {
             state = ShipState.HIT;

@@ -33,19 +33,30 @@ public class Cell {
     void print() {
         switch (state) {
             case EMPTY:
-                System.out.print("[ ]");
+               // System.out.print("[ ]");
+                //System.out.print(" \u20DE");
+                System.out.print(" \u2610");
+                //System.out.print(" \u23A2");
                 break;
             case MISS:
-                System.out.print("[.]");
+                System.out.print(" \u25A3");
+               // System.out.print("[.]");
                 break;
             case HITDECK:
-                System.out.print("[x]");
+                System.out.print(" \u2612");
+               // System.out.print("[x]");
                 break;
             case DECK:
-                System.out.print("[d]");
+              //  System.out.print("\u25A7");
+                //System.out.print("\u23A2");
+                //System.out.print(" \u25A8");
+                //System.out.print(" \u23A2");
+                System.out.print(" \u25A9");
+               // System.out.print("[d]");
                 break;
             case UNDEFINED:
-                System.out.print("[ ]");
+                System.out.print(" \u2610");
+                //System.out.print("[ ]");
                 break;
         }
 
