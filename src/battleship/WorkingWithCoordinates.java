@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class WorkingWithCoordinates {
 
     public static boolean coordinateCheck(String str) {
-        Pattern pattern = Pattern.compile("[а-к&&[^й^ё]]\\d\\d?");
+        Pattern pattern = Pattern.compile("[а-к&&[^й^ё]](\\d|10)");
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }

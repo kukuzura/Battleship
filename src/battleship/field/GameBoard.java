@@ -17,6 +17,11 @@ public class GameBoard {
     public GameBoard() {
         size = 10;
         cells = new Cell[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                cells[i][j] = new Cell();
+            }
+        }
         ships = new ArrayList<>();
         shipsAmount = 10;
     }
@@ -33,51 +38,11 @@ public class GameBoard {
         return cells[x][y];
     }
 
-    public void generateEnemyBoard() {
+    public void generateBoard(CellState cellState){
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                cells[i][j] = new Cell();
+                cells[i][j].setState(cellState);
             }
-        }
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                cells[i][j].setState(CellState.UNDEFINED);
-            }
-        }
-    }
-
-    public void generateMyBoard() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                cells[i][j] = new Cell();
-            }
-        }
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                cells[i][j].setState(CellState.EMPTY);
-            }
-        }
-        //Ship ship = new Ship();
-        ships = new ArrayList<>();
-        ships.add(Ship.create(this, 4, 0, 0, true));
-        ships.add(Ship.create(this, 3, 5, 0, true));
-        ships.add(Ship.create(this, 3, 0, 2, false));
-        ships.add(Ship.create(this, 2, 9, 8, false));
-        ships.add(Ship.create(this, 2, 6, 9, true));
-        ships.add(Ship.create(this, 2, 4, 4, true));
-        ships.add(Ship.create(this, 1, 7, 3, true));
-        ships.add(Ship.create(this, 1, 1, 7, true));
-        ships.add(Ship.create(this, 1, 9, 1, true));
-        ships.add(Ship.create(this, 1, 6, 6, true));
-    }
-
-    public void print() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                cells[i][j].print();
-            }
-            System.out.println();
         }
     }
 
@@ -179,7 +144,7 @@ public class GameBoard {
                     cells[lastX - 1][lastY + 1].setState(MISS);
                 }
             }
-            if (lastY > shipSize) {
+            if (lastY >= shipSize) {
                 if (lastX + 1 != size) {
                     cells[lastX + 1][lastY - shipSize].setState(MISS);
                 }
@@ -189,9 +154,9 @@ public class GameBoard {
                 }
             }
             for (int i = 0; i < shipSize; i++) {
-                if (lastX + 1 != size && lastY - i > 0)
+                if (lastX + 1 != size && lastY - i >= 0)
                     cells[lastX + 1][lastY - i].setState(MISS);
-                if (lastX - 1 != -1 && lastY - i < size)
+                if (lastX - 1 != -1 && lastY - i >= 0)
                     cells[lastX - 1][lastY - i].setState(MISS);
             }
         }
@@ -204,19 +169,14 @@ public class GameBoard {
     }
 
     public void randomGenerate() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                cells[i][j] = new Cell();
-                cells[i][j].setState(CellState.EMPTY);
-            }
-        }
+       generateBoard(CellState.EMPTY);
         int x = 0;
         int y = 0;
         boolean vertical = true;
         ships = new ArrayList<>();
 
 
-        for (int shipSize = 4, insertAmount = 1; shipSize >= 1 && insertAmount <= 5 - shipSize; shipSize--, insertAmount++) {
+       for (int shipSize = 4, insertAmount = 1; shipSize >= 1 && insertAmount <= 5 - shipSize; shipSize--, insertAmount++) {
             int i = 0;
             while (i < insertAmount) {
                 x = (int) (Math.random() * 10);
@@ -231,7 +191,14 @@ public class GameBoard {
                 ships.add(Ship.create(this, shipSize, x, y, vertical));
                 i++;
             }
-        }
+       }
+
+
+
+//            if(checkInsertion(2,4,0,false)){
+//                ships.add(Ship.create(this,2,4,0,false));
+//            }
+
     }
 
     public boolean checkInsertion(int shipSize, int x, int y, boolean vertical) {
@@ -249,7 +216,7 @@ public class GameBoard {
             }
 
             for (int i = x - 1; i <= x + shipSize; i++) {
-                if (x - 1 != -1) {
+                if (i != -1) {
                     if (cells[i][y].state == CellState.DECK) {
                         return false;
                     }
@@ -276,7 +243,7 @@ public class GameBoard {
             }
 
             for (int i = y - 1; i <= y + shipSize; i++) {
-                if (y - 1 != -1) {
+                if (i != -1) {
                     if (cells[x][i].state == CellState.DECK) {
                         return false;
                     }

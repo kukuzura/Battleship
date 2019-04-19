@@ -27,33 +27,33 @@ public class Ship {
         return state;
     }
 
-    public boolean isThereSuchCell(int x,int y){
-        for(int i=0;i<size;i++){
-            if(cells[i].x==x&&cells[i].y==y){
-               return true;
+    public boolean isThereSuchCell(int x, int y) {
+        for (int i = 0; i < size; i++) {
+            if (cells[i].x == x && cells[i].y == y) {
+                return true;
             }
         }
         return false;
     }
 
-    public void setCellState(int x,int y,CellState state){
-        for(int i=0;i<size;i++){
-            if(cells[i].x==x&&cells[i].y==y){
-                cells[i].state=state;
+    public void setCellState(int x, int y, CellState state) {
+        for (int i = 0; i < size; i++) {
+            if (cells[i].x == x && cells[i].y == y) {
+                cells[i].state = state;
             }
         }
     }
 
     public void checkState() {
         //cells = new Cell[size];
-       // for (int i = 0; i < size; i++) {
+        // for (int i = 0; i < size; i++) {
         //    cells[i] = new Cell();
         //}
         int hintsAmount = 0;
         for (int i = 0; i < size; i++) {
             if (cells[i].state == CellState.HITDECK) {
                 hintsAmount++;
-                state=ShipState.HIT;
+                state = ShipState.HIT;
             }
         }
         if (hintsAmount == size) {
@@ -74,31 +74,29 @@ public class Ship {
         this.cells = cells;
     }
 
-    public boolean shoot(int x, int y) { ////????
-        return false;
-    }
-
     public static Ship create(GameBoard board, int size, int x, int y, boolean horizontal) {
 
-        Ship ship=new Ship();
+        Ship ship = new Ship();
         ship.cells = new Cell[size];
-        for (int i = 0; i < size; i++) {
-            ship.cells[i] = new Cell();
-        }
-        ship.size=size;
+       // for (int i = 0; i < size; i++) {
+        //    ship.cells[i] = new Cell();
+       // }
+        ship.size = size;
         for (int i = 0; i < size; i++) {
             if (horizontal) {
-                ship.cells[i].setX(x + i);
-                ship.cells[i].setY(y);
-                ship.cells[i].setState(CellState.DECK);
-                ship.horizontal=horizontal;
+                //ship.cells[i].setX(x + i);
+                //ship.cells[i].setY(y);
+                //ship.cells[i].setState(CellState.DECK);
+                ship.horizontal = horizontal;
                 board.cells[x + i][y].setState(CellState.DECK);
+                ship.cells[i] = board.cells[x + i][y];
             } else {
-                ship.cells[i].setX(x);
-                ship.cells[i].setY(y + i);
-                ship.cells[i].setState(CellState.DECK);
-                ship.horizontal=horizontal;
+                //ship.cells[i].setX(x);
+                //ship.cells[i].setY(y + i);
+                //ship.cells[i].setState(CellState.DECK);
+                ship.horizontal = horizontal;
                 board.cells[x][y + i].setState(CellState.DECK);
+                ship.cells[i] = board.cells[x][y + i];
             }
         }
         ship.setState(SAFE);

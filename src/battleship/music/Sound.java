@@ -13,9 +13,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
     private Clip clip;
     public Sound(String fileName) {
-        // specify the sound to play
-        // (assuming the sound can be played by the audio system)
-        // from a wave File
         try {
             File file = new File(fileName);
             if (file.exists()) {

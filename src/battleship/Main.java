@@ -22,18 +22,20 @@ public class Main {
         ((ComputerPlayer) computer).randomGenerate();
         ((ComputerPlayer) computer).printBoards();
         while(((HumanPlayer) player).isAlive()&&((ComputerPlayer) computer).isAlive()){
-            while(player.turn(computer)&&((ComputerPlayer) computer).isAlive()&&((HumanPlayer) player).isAlive()) {
-             //   System.out.println("computer");
-              //  ((ComputerPlayer) computer).printBoards();
-               // System.out.println("me");
-               // ((HumanPlayer) player).printBoards();
+            while(true) {
+                while (!((ComputerPlayer) computer).isFinishingMove()&&computer.turn(player)){
+                }
+                while (((ComputerPlayer) computer).isFinishingMove()){
+                    ((ComputerPlayer) computer).finishingMove(player);
+                }
+                break;
             }
-            while (computer.turn(player)&&((HumanPlayer) player).isAlive()&&((ComputerPlayer) computer).isAlive()) {
+        //    while (computer.turn(player)&&((HumanPlayer) player).isAlive()&&((ComputerPlayer) computer).isAlive()) {
                // System.out.println("computer");
                // ((ComputerPlayer) computer).printBoards();
                // System.out.println("me");
                // ((HumanPlayer) player).printBoards();
-            }
+ //           }
         }
     }
 }
