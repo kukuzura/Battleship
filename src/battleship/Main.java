@@ -2,13 +2,14 @@ package battleship;
 
 import battleship.interfaces.Player;
 import battleship.music.MusicPlayer;
+import battleship.players.AdvancedComputerPlayer;
 import battleship.players.ComputerPlayer;
 import battleship.players.HumanPlayer;
 import battleship.states.TurnState;
 
 public class Main {
     public static void main(String[] args) {
-        Player computer = new ComputerPlayer();
+        AdvancedComputerPlayer computer= new AdvancedComputerPlayer();
         Player player = new HumanPlayer();
         Runnable music = new MusicPlayer();
        // music.run();
@@ -19,14 +20,14 @@ public class Main {
         }
         ((HumanPlayer) player).randomGenerate();
         ((HumanPlayer) player).printBoards();
-        ((ComputerPlayer) computer).randomGenerate();
-        ((ComputerPlayer) computer).printBoards();
+        computer.randomGenerate();
+        computer.printBoards();
         while(((HumanPlayer) player).isAlive()&&((ComputerPlayer) computer).isAlive()){
             while(true) {
-                while (!((ComputerPlayer) computer).isFinishingMove()&&computer.turn(player)){
+                while (!(computer).isFinishingMove()&&computer.turn(player)){
                 }
-                while (((ComputerPlayer) computer).isFinishingMove()){
-                    ((ComputerPlayer) computer).finishingMove(player);
+                while ((computer).isFinishingMove()){
+                    computer.finishingMove(player);
                 }
                 break;
             }

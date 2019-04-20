@@ -12,17 +12,17 @@ import static battleship.states.TurnState.*;
 public class ComputerPlayer implements Player {
     GameBoard myBoard;
     GameBoard enemyBoard;
-    Cell currentTarget;
-    Cell lastSuccessfulTarget;
-    boolean targetVertical;
-    boolean finishingMove=false;
+//    Cell currentTarget;
+//    Cell lastSuccessfulTarget;
+//    boolean targetVertical;
+//    boolean finishingMove=false;
 
 
     public ComputerPlayer() {
         myBoard = new GameBoard();
         enemyBoard = new GameBoard();
-        currentTarget = new Cell();
-        lastSuccessfulTarget = new Cell();
+//        currentTarget = new Cell();
+//        lastSuccessfulTarget = new Cell();
     }
 
     @Override
@@ -38,30 +38,18 @@ public class ComputerPlayer implements Player {
         return getAnotherPlayerDamageCheckResult(x,y,player);
     }
 
-    public boolean finishingMove(Player player){
-        currentTarget=getCurrentTarget();
-        int x = currentTarget.getX();
-        int y = currentTarget.getY();
-        System.out.println(WorkingWithCoordinates.getTwoCoordinatesAsString(x, y));
-        return getAnotherPlayerDamageCheckResult(x,y,player);
-    }
-
-    public boolean isFinishingMove(){
-        return finishingMove;
-    }
-
     boolean getAnotherPlayerDamageCheckResult(int x,int y,Player player){
         switch (player.checkDamage(x, y)) {
             case DESTROYED:
                 enemyBoard.setCellState(x, y, CellState.HITDECK);
                 enemyBoard.setMISSAroundShip(x, y);
-                finishingMove=false;
+               // finishingMove=false;
                 return true;
             case HIT:
                 enemyBoard.setCellState(x, y, CellState.HITDECK);
-                lastSuccessfulTarget.setX(x);
-                lastSuccessfulTarget.setY(y);
-                finishingMove=true;
+              //  lastSuccessfulTarget.setX(x);
+               // lastSuccessfulTarget.setY(y);
+               // finishingMove=true;
                 return true;
             case MISS:
                 if (enemyBoard.getCellState(x, y) != CellState.HITDECK) {
@@ -71,40 +59,40 @@ public class ComputerPlayer implements Player {
         return false;
     }
 
-    public boolean isTargetVertical(int x, int y) {
-        if (x != 0 && enemyBoard.getCellState(x, y - 1) == CellState.HITDECK && enemyBoard.getCellState(x, y - 1) != CellState.MISS) {
-            targetVertical = true;
-        } else if (y != 9 && enemyBoard.getCellState(x, y + 1) == CellState.HITDECK && enemyBoard.getCellState(x, y + 1) != CellState.MISS) {
-            targetVertical = true;
-        } else targetVertical = false;
-        return targetVertical;
-    }
-
-    public Cell getCurrentTarget() {
-        int lastX = lastSuccessfulTarget.getX();
-        int lastY = lastSuccessfulTarget.getY();
-        isTargetVertical(lastX,lastY);
-        if (targetVertical) {
-            if (lastX + 1 != 10 && enemyBoard.getCellState(lastX + 1, lastY) == CellState.UNDEFINED) {
-                currentTarget.setX(lastX + 1);
-                currentTarget.setY(lastY);
-            }
-            if (lastX - 1 != -1 && enemyBoard.getCellState(lastX - 1, lastY) == CellState.UNDEFINED) {
-                currentTarget.setX(lastX - 1);
-                currentTarget.setY(lastY);
-            }
-        } else {
-            if (lastY + 1 != 10 && enemyBoard.getCellState(lastX, lastY + 1) == CellState.UNDEFINED) {
-                currentTarget.setX(lastX);
-                currentTarget.setY(lastY + 1);
-            }
-            if (lastY - 1 != -1 && enemyBoard.getCellState(lastX, lastY - 1) == CellState.UNDEFINED) {
-                currentTarget.setX(lastX);
-                currentTarget.setY(lastY - 1);
-            }
-        }
-        return currentTarget;
-    }
+//    public boolean isTargetVertical(int x, int y) {
+//        if (x != 0 && enemyBoard.getCellState(x, y - 1) == CellState.HITDECK && enemyBoard.getCellState(x, y - 1) != CellState.MISS) {
+//            targetVertical = true;
+//        } else if (y != 9 && enemyBoard.getCellState(x, y + 1) == CellState.HITDECK && enemyBoard.getCellState(x, y + 1) != CellState.MISS) {
+//            targetVertical = true;
+//        } else targetVertical = false;
+//        return targetVertical;
+//    }
+//
+//    public Cell getCurrentTarget() {
+//        int lastX = lastSuccessfulTarget.getX();
+//        int lastY = lastSuccessfulTarget.getY();
+//        isTargetVertical(lastX,lastY);
+//        if (targetVertical) {
+//            if (lastX + 1 != 10 && enemyBoard.getCellState(lastX + 1, lastY) == CellState.UNDEFINED) {
+//                currentTarget.setX(lastX + 1);
+//                currentTarget.setY(lastY);
+//            }
+//            if (lastX - 1 != -1 && enemyBoard.getCellState(lastX - 1, lastY) == CellState.UNDEFINED) {
+//                currentTarget.setX(lastX - 1);
+//                currentTarget.setY(lastY);
+//            }
+//        } else {
+//            if (lastY + 1 != 10 && enemyBoard.getCellState(lastX, lastY + 1) == CellState.UNDEFINED) {
+//                currentTarget.setX(lastX);
+//                currentTarget.setY(lastY + 1);
+//            }
+//            if (lastY - 1 != -1 && enemyBoard.getCellState(lastX, lastY - 1) == CellState.UNDEFINED) {
+//                currentTarget.setX(lastX);
+//                currentTarget.setY(lastY - 1);
+//            }
+//        }
+//        return currentTarget;
+//    }
 
     @Override
     public TurnState checkDamage(int x, int y) {

@@ -67,6 +67,7 @@ public class GameBoard {
             ships.get(i).checkState();
             if (ships.get(i).getState() == ShipState.DESTROYED) {
                 ships.remove(i);
+
                 shipsAmount--;
                 return true;
             }
