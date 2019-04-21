@@ -2,6 +2,8 @@ package battleship.field;
 
 import battleship.states.CellState;
 
+import java.util.function.Consumer;
+
 public class Cell {
     int x, y;
     CellState state;
@@ -31,19 +33,24 @@ public class Cell {
     }
 
     void print() {
+        Consumer<String> printer = s-> System.out.print(s);
+
         switch (state) {
             case EMPTY:
                // System.out.print("[ ]");
                 //System.out.print(" \u20DE");
-                System.out.print(" \u2610");
+                printer.accept(" \u2610");
+               // System.out.print(" \u2610");
                 //System.out.print(" \u23A2");
                 break;
             case MISS:
-                System.out.print(" \u25A3");
+                printer.accept(" \u25A3");
+               // System.out.print(" \u25A3");
                // System.out.print("[.]");
                 break;
             case HITDECK:
-                System.out.print(" \u2612");
+                printer.accept(" \u2612");
+                //System.out.print(" \u2612");
                // System.out.print("[x]");
                 break;
             case DECK:
@@ -51,11 +58,13 @@ public class Cell {
                 //System.out.print("\u23A2");
                 //System.out.print(" \u25A8");
                 //System.out.print(" \u23A2");
-                System.out.print(" \u25A9");
+                printer.accept(" \u25A9");
+               // System.out.print(" \u25A9");
                // System.out.print("[d]");
                 break;
             case UNDEFINED:
-                System.out.print(" \u2610");
+                printer.accept(" \u2610");
+               // System.out.print(" \u2610");
                 //System.out.print("[ ]");
                 break;
         }

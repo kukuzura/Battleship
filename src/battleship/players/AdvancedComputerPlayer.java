@@ -111,6 +111,9 @@ public class AdvancedComputerPlayer extends ComputerPlayer {
             }
 
         }
+//        if(currentTarget.getX()==lastX&&currentTarget.getY()==lastY){
+//            System.out.println("что то не то");
+ //       }
         currentTarget.setX(lastX);
         currentTarget.setY(lastY);
         return currentTarget;

@@ -4,6 +4,7 @@ import battleship.states.CellState;
 import battleship.states.ShipState;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import static battleship.states.CellState.HITDECK;
 import static battleship.states.CellState.MISS;
@@ -38,7 +39,7 @@ public class GameBoard {
         return cells[x][y];
     }
 
-    public void generateBoard(CellState cellState){
+    public void generateBoard(CellState cellState) {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 cells[i][j].setState(cellState);
@@ -48,7 +49,7 @@ public class GameBoard {
 
     public void printString(int stringIndex) {
         for (int i = 0; i < size; i++) {
-           // System.out.print(" \u2500");
+            // System.out.print(" \u2500");
             cells[stringIndex][i].print();
         }
     }
@@ -170,21 +171,22 @@ public class GameBoard {
     }
 
     public void randomGenerate() {
-       generateBoard(CellState.EMPTY);
+        Predicate<Double> isVertical = x -> x > 0.5;
+        generateBoard(CellState.EMPTY);
         int x = 0;
         int y = 0;
         boolean vertical = true;
         ships = new ArrayList<>();
 
 
-       for (int shipSize = 4, insertAmount = 1; shipSize >= 1 && insertAmount <= 5 - shipSize; shipSize--, insertAmount++) {
+        for (int shipSize = 4, insertAmount = 1; shipSize >= 1 && insertAmount <= 5 - shipSize; shipSize--, insertAmount++) {
             int i = 0;
             while (i < insertAmount) {
                 x = (int) (Math.random() * 10);
                 y = (int) (Math.random() * 10);
-                if (Math.random() > 0.5)                  //что-то другое(м.б функция?)
-                    vertical = false;
-                else vertical = true;
+
+                vertical = isVertical.test(Math.random());
+
                 while (!checkInsertion(shipSize, x, y, vertical)) {
                     x = (int) (Math.random() * 10);
                     y = (int) (Math.random() * 10);
@@ -192,12 +194,11 @@ public class GameBoard {
                 ships.add(Ship.create(this, shipSize, x, y, vertical));
                 i++;
             }
-       }
+        }
 
 
-
-//            if(checkInsertion(2,4,0,false)){
-//                ships.add(Ship.create(this,2,4,0,false));
+//            if(checkInsertion(4,9,0,false)){
+//                ships.add(Ship.create(this,4,9,0,false));
 //            }
 
     }

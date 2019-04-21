@@ -1,8 +1,8 @@
 package battleship.music;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -15,31 +15,21 @@ public class Sound {
     public Sound(String fileName) {
         try {
             File file = new File(fileName);
-            if (file.exists()) {
                 AudioInputStream sound = AudioSystem.getAudioInputStream(file);
-                // load the sound into memory (a Clip)
                 clip = AudioSystem.getClip();
                 clip.open(sound);
             }
-            else {
-                throw new RuntimeException("Sound: file not found: " + fileName);
-            }
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Sound: Malformed URL: " + e);
+        catch (FileNotFoundException e) {
+            System.out.println("Файл " + fileName +" не найден");
         }
         catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
+            System.out.println("Неподдерживаемый формат: ");
         }
         catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Sound: Input/Output Error: " + e);
+            System.out.println("Ошибка чтения записи: "+fileName);
         }
         catch (LineUnavailableException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
+            System.out.println("Line Unavailable Exception Error: " + fileName);
         }
 
     }
