@@ -1,48 +1,71 @@
 package battleship.game;
 
-import battleship.interfaces.Player;
 import battleship.music.MusicPlayer;
-import battleship.players.AdvancedComputerPlayer;
-import battleship.players.ComputerPlayer;
-import battleship.players.HumanPlayer;
+import battleship.players.AdvancedComputerPlayerClass;
+import battleship.players.ComputerPlayerClass;
+import battleship.players.HumanPlayerClass;
+import battleship.util.FileReader;
+
+import java.util.Date;
+import java.util.Scanner;
 
 public class Game {
 
     public static void advancedComputerPlayerGame() {
-        AdvancedComputerPlayer computer = new AdvancedComputerPlayer();
-        HumanPlayer player = new HumanPlayer();
+        Scanner scan = new Scanner(System.in);
+        String playerName = scan.nextLine();
+        AdvancedComputerPlayerClass computer = new AdvancedComputerPlayerClass();
+        HumanPlayerClass player = new HumanPlayerClass();
         Runnable music = new MusicPlayer();
-        //   music.run();
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        music.run();
         player.randomGenerate();
-        player.printBoards();
         computer.randomGenerate();
-        computer.printBoards();
+        boolean finishMoveSuccesful = true;    // если добивание закончилось убийстовм корабля
+        boolean simpleTurnResult = true;
         while (player.isAlive() && computer.isAlive()) {
-            while (!(computer).isFinishingMove() && computer.turn(player) && player.isAlive()) {
+            while (simpleTurnResult && player.isAlive() && finishMoveSuccesful) {      //если промазать при добивании то не зайдет
+                if (!(computer.isFinishingMove())) {
+                    simpleTurnResult = computer.turn(player);
+                }
+                while (finishMoveSuccesful && (computer).isFinishingMove() && player.isAlive()) {
+                    finishMoveSuccesful = computer.finishingMove(player);
+                }
             }
-            while ((computer).isFinishingMove() && player.isAlive()) {
-                computer.finishingMove(player);
-            }
+            finishMoveSuccesful = true;
+            simpleTurnResult = true;
             while (player.turn(computer) && computer.isAlive()) {
 
             }
         }
+
+        if (player.isAlive()) {
+            FileReader.inputGameResult("result.txt", getGameResult(player, playerName));
+        } else
+            FileReader.inputGameResult("result.txt", getGameResult(player, playerName));
     }
 
     public static void simpleComputerPlayer() {
-        HumanPlayer player = new HumanPlayer();
-        ComputerPlayer computer = new ComputerPlayer();
+        HumanPlayerClass player = new HumanPlayerClass();
+        ComputerPlayerClass computer = new ComputerPlayerClass();
+        Runnable music = new MusicPlayer();
+        music.run();
+        player.randomGenerate();
+        computer.randomGenerate();
         while (player.turn(computer) && player.isAlive() && computer.isAlive()) {
             player.printBoards();
         }
         while (computer.turn(player) && player.isAlive() && computer.isAlive()) {
-                   player.printBoards();
+            player.printBoards();
         }
 
     }
+
+    public static String getGameResult(HumanPlayerClass player, String playerName) {
+        Date date = new Date();
+        if (player.isAlive()) {
+            return date.toString() + " Победитель " + playerName;
+        } else
+            return date.toString() + " Победитель компьютер";
+    }
+
 }

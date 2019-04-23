@@ -1,53 +1,26 @@
 package battleship.players;
 
-import battleship.WorkingWithCoordinates;
+import battleship.util.WorkingWithCoordinates;
 import battleship.field.GameBoard;
-import battleship.interfaces.Player;
 import battleship.states.CellState;
 import battleship.states.TurnState;
 
 import java.util.Scanner;
 
-public class HumanPlayer implements Player {
+public class HumanPlayerClass implements Player {
+
     GameBoard myBoard;
     GameBoard enemyBoard;
 
-    public HumanPlayer() {
+    public HumanPlayerClass(){
         myBoard = new GameBoard();
         enemyBoard = new GameBoard();
-    }
-
-    public void randomGenerate() {
-        enemyBoard.generateBoard(CellState.UNDEFINED);
-        myBoard.randomGenerate();
-    }
-
-    public void printBoards() {
-        //System.out.println("   \u0430 \u0431 \u0432 \u0433  \u0434  \u0435 \u0436 \u0437 \u0438 \u043A" + "     " + " а б в г д е ж з и к");
-        System.out.printf(" %3s%2s%3s%2s%3s%2s%3s%2s%3s%2s", 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к');
-        System.out.print("   ");
-        System.out.printf(" %3s%2s%3s%2s%3s%2s%3s%2s%3s%2s", 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к');
-        System.out.println();
-        for (int i = 0; i < 10; i++) {
-            System.out.printf("%2d", i + 1);
-            myBoard.printString(i);
-            System.out.print("  ");
-            System.out.printf("%2d", i + 1);
-            enemyBoard.printString(i);
-            System.out.println();
-        }
-    }
-
-    public boolean isAlive() {
-        if (myBoard.getShipsAmount() == 0) {
-            return false;
-        } else return true;
     }
 
     @Override
     public boolean turn(Player comp) {
         printBoards();
-        System.out.println("Ваш ход");
+        System.out.println(" \n \u2694 "+"Ваш ход"+" \u2694 \n");
         Scanner scan = new Scanner(System.in);
         System.out.println("Введите координату (например, а1)");
         String str = scan.nextLine();
@@ -60,16 +33,16 @@ public class HumanPlayer implements Player {
         int y = coordinates[0];
         switch (comp.checkDamage(x, y)) {
             case DESTROYED:
-                System.out.println("Убил");
+                System.out.println("\n \u2620  "+"Убил" +"  \u2620 \n");
                 enemyBoard.setCellState(x, y, CellState.HITDECK);
                 enemyBoard.setMISSAroundShip(x, y);
                 return true;
             case HIT:
-                System.out.println("Ранил");
+                System.out.println(" \n Ранил \n");
                 enemyBoard.setCellState(x, y, CellState.HITDECK);
                 return true;
             case MISS:
-                System.out.println("Мимо");
+                System.out.println(" \n Мимо \n ");
                 if (enemyBoard.getCellState(x, y) != CellState.HITDECK) {
                     enemyBoard.setCellState(x, y, CellState.MISS);
                 }
@@ -85,7 +58,8 @@ public class HumanPlayer implements Player {
         while (true) {
             System.out.println("1.Мимо");
             System.out.println("2.Попал");
-            System.out.println("3.Убил");
+            System.out.println("3.Убил \u2620");
+            System.out.printf("Введите цифру \n");
             switch (scan.next()) {
                 case "1":
                     return TurnState.MISS;
@@ -100,5 +74,32 @@ public class HumanPlayer implements Player {
             }
         }
     }
+
+    public void printBoards() {
+        System.out.printf(" %3s%2s%3s%2s%3s%2s%3s%2s%3s%2s", 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к');
+        System.out.print("   ");
+        System.out.printf(" %3s%2s%3s%2s%3s%2s%3s%2s%3s%2s", 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к');
+        System.out.println();
+        for (int i = 0; i < 10; i++) {
+            System.out.printf("%2d", i + 1);
+            myBoard.printString(i);
+            System.out.print("  ");
+            System.out.printf("%2d", i + 1);
+            enemyBoard.printString(i);
+            System.out.println();
+        }
+    }
+
+    public void randomGenerate() {
+        enemyBoard.generateBoard(CellState.UNDEFINED);
+        myBoard.randomGenerate();
+    }
+
+    public boolean isAlive() {
+        if (myBoard.getShipsAmount() == 0) {
+            return false;
+        } else return true;
+    }
+
 }
 

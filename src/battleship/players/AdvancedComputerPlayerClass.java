@@ -1,31 +1,28 @@
 package battleship.players;
 
-import battleship.WorkingWithCoordinates;
+import battleship.util.WorkingWithCoordinates;
 import battleship.field.Cell;
-import battleship.interfaces.Player;
 import battleship.states.CellState;
 
-import static battleship.states.TurnState.*;
-
-public class AdvancedComputerPlayer extends ComputerPlayer {
+public class AdvancedComputerPlayerClass extends ComputerPlayerClass {
     Cell currentTarget;
     Cell lastSuccessfulTarget;
     boolean targetVertical=false;
     boolean finishingMove = false;
     boolean increaseCoordinate = true;
 
-    public AdvancedComputerPlayer() {
+    public AdvancedComputerPlayerClass() {
         super();
         currentTarget = new Cell();
         lastSuccessfulTarget = new Cell();
     }
 
-    public boolean finishingMove(Player player) {
+    public boolean finishingMove(Player playerClass) {
         currentTarget = getCurrentTarget();
         int x = currentTarget.getX();
         int y = currentTarget.getY();
         System.out.println(WorkingWithCoordinates.getTwoCoordinatesAsString(x, y));
-        boolean moveFlag=getAnotherPlayerDamageCheckResult(x, y, player);
+        boolean moveFlag=getAnotherPlayerDamageCheckResult(x, y, playerClass);
         if(!moveFlag){
             isTargetVertical(lastSuccessfulTarget.getX(),lastSuccessfulTarget.getY());
         }
@@ -36,8 +33,8 @@ public class AdvancedComputerPlayer extends ComputerPlayer {
         return finishingMove;
     }
 
-    public boolean getAnotherPlayerDamageCheckResult(int x, int y, Player player) {
-        switch (player.checkDamage(x, y)) {
+    public boolean getAnotherPlayerDamageCheckResult(int x, int y, Player playerClass) {
+        switch (playerClass.checkDamage(x, y)) {
             case DESTROYED:
                 enemyBoard.setCellState(x, y, CellState.HITDECK);
                 enemyBoard.setMISSAroundShip(x, y);
@@ -55,6 +52,7 @@ public class AdvancedComputerPlayer extends ComputerPlayer {
                 if (enemyBoard.getCellState(x, y) != CellState.HITDECK) {
                     enemyBoard.setCellState(x, y, CellState.MISS);
                 }
+                return false;
         }
         return false;
     }
@@ -67,9 +65,6 @@ public class AdvancedComputerPlayer extends ComputerPlayer {
         catch (ArrayIndexOutOfBoundsException ex){
             targetVertical=true;
         }
-//        if ((y != 0 && (enemyBoard.getCellState(x, y - 1) !=CellState.MISS)) && (y != 9 && (enemyBoard.getCellState(x, y + 1) != CellState.MISS))){
-//            targetVertical = false;
-//        }
         if (x != 0 && (enemyBoard.getCellState(x-1, y ) ==CellState.HITDECK || x != 9 && (enemyBoard.getCellState(x+1, y) == CellState.HITDECK))){
             targetVertical = true;
         }

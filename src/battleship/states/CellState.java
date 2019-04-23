@@ -6,5 +6,4 @@ public enum CellState {
     HITDECK,
     DECK,
     MISS,
-    DESTROYED
 }

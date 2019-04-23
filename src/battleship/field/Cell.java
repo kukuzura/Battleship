@@ -37,43 +37,21 @@ public class Cell {
 
         switch (state) {
             case EMPTY:
-               // System.out.print("[ ]");
-                //System.out.print(" \u20DE");
                 printer.accept(" \u2610");
-               // System.out.print(" \u2610");
-                //System.out.print(" \u23A2");
                 break;
             case MISS:
                 printer.accept(" \u25A3");
-               // System.out.print(" \u25A3");
-               // System.out.print("[.]");
                 break;
             case HITDECK:
                 printer.accept(" \u2612");
-                //System.out.print(" \u2612");
-               // System.out.print("[x]");
                 break;
             case DECK:
-              //  System.out.print("\u25A7");
-                //System.out.print("\u23A2");
-                //System.out.print(" \u25A8");
-                //System.out.print(" \u23A2");
                 printer.accept(" \u25A9");
-               // System.out.print(" \u25A9");
-               // System.out.print("[d]");
                 break;
             case UNDEFINED:
                 printer.accept(" \u2610");
-               // System.out.print(" \u2610");
-                //System.out.print("[ ]");
                 break;
         }
 
-    }
-
-    boolean isThereShip(){
-        if(state==CellState.DECK)
-            return true;
-        else return false;
     }
 }

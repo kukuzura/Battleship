@@ -45,10 +45,6 @@ public class Ship {
     }
 
     public void checkState() {
-        //cells = new Cell[size];
-        // for (int i = 0; i < size; i++) {
-        //    cells[i] = new Cell();
-        //}
         int hintsAmount = 0;
         for (int i = 0; i < size; i++) {
             if (cells[i].state == CellState.HITDECK) {
@@ -57,30 +53,16 @@ public class Ship {
             }
         }
         if (hintsAmount == size) {
-//            for (int i = 0; i < size; i++) {
-//                cells[i].state=CellState.HITDECK;
-//            }
             state = ShipState.DESTROYED;
         } else if (hintsAmount != 0) {
             state = ShipState.HIT;
         } else state = ShipState.SAFE;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public void setCells(Cell[] cells) {
-        this.cells = cells;
-    }
-
     public static Ship create(GameBoard board, int size, int x, int y, boolean horizontal) {
 
         Ship ship = new Ship();
         ship.cells = new Cell[size];
-       // for (int i = 0; i < size; i++) {
-        //    ship.cells[i] = new Cell();
-       // }
         ship.size = size;
         for (int i = 0; i < size; i++) {
             if (horizontal) {

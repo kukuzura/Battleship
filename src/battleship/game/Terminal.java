@@ -1,6 +1,6 @@
 package battleship.game;
 
-import battleship.tutorial.FileReader;
+import battleship.util.FileReader;
 
 import java.util.Scanner;
 
@@ -8,11 +8,10 @@ public class Terminal {
     public void startMenu() {
         Scanner scan = new Scanner(System.in);
         while (true) {
-            System.out.println("Выберите пункт(введите цифру)");
+            System.out.println("\u2693 Выберите пункт(введите цифру) \u2693");
             System.out.println("1.Начать игру");
             System.out.println("2.Краткие правила");
             System.out.println("3.Выход");
-
             switch (scan.next()) {
                 case "1":
                     difficultyLevelsMenu();
@@ -31,10 +30,10 @@ public class Terminal {
     public void difficultyLevelsMenu() {
         Scanner scan = new Scanner(System.in);
         while (true) {
-            System.out.println("Выберите уровень сложности(введите цифру)");
+            System.out.println("\u2693 Выберите уровень сложности(введите цифру) \u2693");
             System.out.println("1.Случайный обстрел");
-            System.out.println("2.Добивание");
-            System.out.println("3.Информация ою уровнях");
+            System.out.println("2.Добивание "  );
+            System.out.println("3.Информация об уровнях");
             System.out.println("4.Вернутся в главное меню");
             switch (scan.next()) {
                 case "1":

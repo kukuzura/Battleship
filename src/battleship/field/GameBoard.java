@@ -49,19 +49,10 @@ public class GameBoard {
 
     public void printString(int stringIndex) {
         for (int i = 0; i < size; i++) {
-            // System.out.print(" \u2500");
             cells[stringIndex][i].print();
         }
     }
 
-    public void setShipsDamage(int x, int y) {
-        for (Ship ship : ships) {
-            if (ship.isThereSuchCell(x, y)) {
-                ship.setCellState(x, y, CellState.HITDECK);
-                break;
-            }
-        }
-    }
 
     public boolean destroyedShipCheck() {
         for (int i = 0; i < shipsAmount; i++) {
@@ -107,59 +98,45 @@ public class GameBoard {
             }
         }
         if (shipSize != 0) {
+
             if (lastX + 1 != size) {
-                if (lastY - 1 != -1) {
-                    cells[lastX + 1][lastY - 1].setState(MISS);
-                }
-                cells[lastX + 1][lastY].setState(MISS);
-
-                if (lastY + 1 != size) {
-                    cells[lastX + 1][lastY + 1].setState(MISS);
-                }
+                cells[lastX+1][lastY].setState(MISS);
             }
-            if (lastX >= shipSize) {
-                if (lastY - 1 != -1) {
-                    cells[lastX - shipSize][lastY - 1].setState(MISS);
-                }
+            if (lastX - shipSize != -1) {
                 cells[lastX - shipSize][lastY].setState(MISS);
-
-                if (lastY + 1 != size) {
-                    cells[lastX - shipSize][lastY + 1].setState(MISS);
-                }
             }
-            for (int i = 0; i < shipSize; i++) {
-                if (lastY + 1 != size)
+
+            for (int i = -1; i <= shipSize; i++) {
+                try {
                     cells[lastX - i][lastY + 1].setState(MISS);
-                if (lastY - 1 != -1)
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
+                try {
                     cells[lastX - i][lastY - 1].setState(MISS);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
             }
         } else {
             while (lastY >= shipSize && cells[lastX][lastY - shipSize].state == HITDECK) {
                 shipSize++;
             }
+
             if (lastY + 1 != size) {
-                if (lastX + 1 != size) {
-                    cells[lastX + 1][lastY + 1].setState(MISS);
-                }
                 cells[lastX][lastY + 1].setState(MISS);
-                if (lastX - 1 != -1) {
-                    cells[lastX - 1][lastY + 1].setState(MISS);
-                }
             }
-            if (lastY >= shipSize) {
-                if (lastX + 1 != size) {
-                    cells[lastX + 1][lastY - shipSize].setState(MISS);
-                }
+            if (lastY - shipSize != -1) {
                 cells[lastX][lastY - shipSize].setState(MISS);
-                if (lastX != 0) {
-                    cells[lastX - 1][lastY - shipSize].setState(MISS);
-                }
             }
-            for (int i = 0; i < shipSize; i++) {
-                if (lastX + 1 != size && lastY - i >= 0)
+            for (int i = -1; i <= shipSize; i++) {
+                try {
                     cells[lastX + 1][lastY - i].setState(MISS);
-                if (lastX - 1 != -1 && lastY - i >= 0)
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
+
+                try {
                     cells[lastX - 1][lastY - i].setState(MISS);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
             }
         }
 
@@ -197,28 +174,27 @@ public class GameBoard {
         }
 
 
-//            if(checkInsertion(4,9,0,false)){
-//                ships.add(Ship.create(this,4,9,0,false));
-//            }
+//        if (checkInsertion(4, 7, 0, true)) {
+//            ships.add(Ship.create(this, 4, 7, 0, true));
+//        }
 
     }
 
     public boolean checkInsertion(int shipSize, int x, int y, boolean vertical) {
         if (vertical) {
-            if (x + shipSize > size - 1) {
+            if (x + shipSize > size) {
                 return false;
             }
 
-            if (y + 1 != size && cells[x + shipSize][y + 1].state == CellState.DECK || y - 1 != -1 && cells[x + shipSize][y - 1].state == CellState.DECK) {
+            if (y + 1 != size && cells[x + shipSize - 1][y + 1].state == CellState.DECK || y - 1 != -1 && cells[x + shipSize - 1][y - 1].state == CellState.DECK) {
                 return false;
             }
 
             if (y + 1 != size && cells[x][y + 1].state == CellState.DECK || y - 1 != -1 && cells[x][y - 1].state == CellState.DECK) {
                 return false;
             }
-
             for (int i = x - 1; i <= x + shipSize; i++) {
-                if (i != -1) {
+                try {
                     if (cells[i][y].state == CellState.DECK) {
                         return false;
                     }
@@ -228,15 +204,17 @@ public class GameBoard {
                     if (y - 1 != -1 && cells[i][y - 1].state == CellState.DECK) {
                         return false;
                     }
+                } catch (ArrayIndexOutOfBoundsException e) {
+
                 }
 
             }
         } else {
-            if (y + shipSize > size - 1) {
+            if (y + shipSize > size) {
                 return false;
             }
 
-            if (x + 1 != size && cells[x + 1][y + shipSize].state == CellState.DECK || x - 1 != -1 && cells[x - 1][y + shipSize].state == CellState.DECK) {
+            if (x + 1 != size && cells[x + 1][y + shipSize - 1].state == CellState.DECK || x - 1 != -1 && cells[x - 1][y + shipSize - 1].state == CellState.DECK) {
                 return false;
             }
 
@@ -245,7 +223,7 @@ public class GameBoard {
             }
 
             for (int i = y - 1; i <= y + shipSize; i++) {
-                if (i != -1) {
+                try {
                     if (cells[x][i].state == CellState.DECK) {
                         return false;
                     }
@@ -255,12 +233,12 @@ public class GameBoard {
                     if (x - 1 != -1 && cells[x - 1][i].state == CellState.DECK) {
                         return false;
                     }
+                } catch (ArrayIndexOutOfBoundsException e) {
                 }
+
             }
 
         }
-
-
         return true;
     }
 }
